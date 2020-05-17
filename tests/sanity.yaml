@@ -1,0 +1,56 @@
+#===================================================================
+# CCR HPC Sanity Test Suite. Simple sanity checks for the clusters
+#===================================================================
+
+#-------------------------------------------------------------------
+# Job Array Test
+#-------------------------------------------------------------------
+jobarray:
+    summary: Test for Slurm job array support
+    slurm:
+        num_nodes: 1
+        tasks_per_node: 1
+        array: '1-5'
+    run:
+        cmds:
+            - '{{sched.test_cmd}} --output=array_%A-%a.out env'
+    results:
+        regex:
+            - key: slurm_array_task_id
+              regex: 'SLURM_ARRAY_TASK_ID=(\\d+)'
+              files: '*.out'
+              per_file: fullname
+            - key: result
+              regex: 'SLURM_ARRAY_TASK_ID=(\\d+)'
+              files: '*.out'
+              per_file: all
+              action: store_true
+
+
+#-------------------------------------------------------------------
+# MPI Test
+#-------------------------------------------------------------------
+mpi:
+    summary: A basic MPI test. Uses openmpi module to run supermagic
+    build:
+        modules: [openmpi/3.1.4]
+        env:
+            CC: mpicc
+        source_location: supermagic-master.zip
+        cmds:
+            - bash ./autogen
+            - ./configure
+            - make
+    slurm:
+        num_nodes: 2
+        tasks_per_node: 2
+    run:
+        modules: [openmpi/3.1.4]
+        cmds:
+            - '{{sched.test_cmd}} ./supermagic'
+    results:
+        regex:
+            - key: num_tests
+              regex: 'num tests.*: (\\d+)'
+            - key: result
+              regex:  '<results> PASSED'
