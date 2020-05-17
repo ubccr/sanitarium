@@ -12,7 +12,7 @@ For documenation on writing tests see [here](https://pavilion2.readthedocs.io/en
 - Python 3.6 
 - Pavilion2 (ccrdev branch [here](https://github.com/ubccr/pavilion2/tree/ccrdev)) 
 
-# Install Pavilion2
+Install Pavilion2
 
 ```
 $ yum install python3
@@ -22,10 +22,11 @@ $ git checkout ccrdev
 $ git submodule update --init --recursive
 ```
 
-# Checkout CCR HPC Test Suite
+Checkout CCR HPC Test Suite
 
 ```
 $ git clone git@github.com:ubccr/sanitarium.git
+$ cd sanitarium
 ```
 
 ## Configuration
