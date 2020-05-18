@@ -71,3 +71,25 @@ mpi:
       - key: result
         regex:  '<results> PASSED'
 
+#-------------------------------------------------------------------
+# GPU Test
+#-------------------------------------------------------------------
+gpu:
+  summary: A basic GPU test. Uses CUDA module to run vector_add
+  build:
+    modules: [cuda/10.2]
+    source_location: vector_add.cu
+    cmds:
+      - nvcc vector_add.cu -o vector_add
+  slurm:
+    num_nodes: 1
+    tasks_per_node: 1
+    gres: 'gpu:1'
+  run:
+    modules: [cuda/10.2]
+    cmds:
+      - '{{sched.test_cmd}} ./vector_add'
+  results:
+    regex:
+      - key: result
+        regex:  'PASSED'
