@@ -35,9 +35,11 @@ jobarray:
     num_nodes: 1
     tasks_per_node: 1
     array: '1-5'
+  build:
+    source_location: jobarray.sh
   run:
     cmds:
-      - '{{sched.test_cmd}} --output=array_%A-%a.out env'
+      - '{{sched.test_cmd}} --output=array_%A-%a.out ./jobarray.sh'
   results:
     regex:
       - key: slurm_array_task_id
