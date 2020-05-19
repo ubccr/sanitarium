@@ -3,10 +3,10 @@
 #===================================================================
 
 #-------------------------------------------------------------------
-# Test writing to global high speed /scratch
+# Test reading/writing to local/global scratch space
 #-------------------------------------------------------------------
 scratch:
-  summary: Test writing to global scratch
+  summary: Test reading/writing to scratch
   slurm:
     num_nodes: 1
     tasks_per_node: 1
@@ -17,8 +17,14 @@ scratch:
       - '{{sched.test_cmd}} ./scratch.sh'
   results:
     regex:
+      - key: scratch_out
+        regex: '^(.*) - ccr sanitarium'
+        match_type: 'all'
+        action: 'store'
       - key: result
         regex: 'ccr sanitarium'
+        threshold: 2 
+        action: 'store_true'
 
 #-------------------------------------------------------------------
 # Job Array Test
