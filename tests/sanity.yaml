@@ -99,3 +99,5 @@ gpu:
     regex:
       - key: result
         regex:  'PASSED'
+        threshold: 5 
+        action: 'store_true'
