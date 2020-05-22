@@ -1,5 +1,8 @@
 #!/bin/bash
 
+trap 'ret=$?; test $ret -ne 0 && printf "failed\n\n" >&2; exit $ret' EXIT
+set -e
+
 # Test writing to local scratch on the node
 echo "$TMPDIR - ccr sanitarium" > $TMPDIR/scratch-test.txt
 cat $TMPDIR/scratch-test.txt
