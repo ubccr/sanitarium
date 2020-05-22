@@ -71,7 +71,7 @@ mpi:
   run:
     modules: [openmpi/3.1.4]
     cmds:
-      - '{{sched.test_cmd}} ./supermagic'
+      - '{{sched.test_cmd}} --constraint=IB ./supermagic'
   results:
     regex:
       - key: num_tests
