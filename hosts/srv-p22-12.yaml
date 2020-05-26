@@ -1,0 +1,4 @@
+scheduler: slurm
+slurm:
+    partition: general-compute
+    reservation: root_34
