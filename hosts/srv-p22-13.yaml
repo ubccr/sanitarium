@@ -1,0 +1,5 @@
+scheduler: slurm
+slurm:
+    partition: general-compute
+    reservation: downtime-sept
+    up_states: "IDLE+MAINTENANCE+RESERVED"

@@ -1,4 +1,4 @@
 scheduler: slurm
 slurm:
     partition: general-compute
-    reservation: downtime-ubhpc
+    reservation: downtime
