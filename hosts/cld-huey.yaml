@@ -1,3 +1,0 @@
-scheduler: slurm
-slurm:
-    partition: general-compute

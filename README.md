@@ -10,17 +10,11 @@ For documenation on writing tests see [here](https://pavilion2.readthedocs.io/en
 ## Requirements
 
 - Python 3.6 
-- Pavilion2 (ccrdev branch [here](https://github.com/ubccr/pavilion2/tree/ccrdev)) 
+- Pavilion2
 
 Install Pavilion2
 
-```
-$ yum install python3
-$ git clone https://github.com/ubccr/pavilion2.git
-$ cd pavilion2
-$ git checkout ccrdev
-$ git submodule update --init --recursive
-```
+Follow docs for installing pavilion [here](https://pavilion2.readthedocs.io/en/latest/install.html)
 
 Checkout CCR HPC Test Suite
 
@@ -29,23 +23,12 @@ $ git clone git@github.com:ubccr/sanitarium.git
 $ cd sanitarium
 ```
 
-## Configuration
-
-Per host configs live in the `hosts` directory. This is where you can set
-global variables for all tests. So things like partition, reservation, etc.
-without having to duplicate them for each test. For the test cluster, all
-settings live in `cld-huey.yaml`. For production, this will likely be
-`vortex1.yaml`. We can also set up "mode" configs for prod and dev "modes". See
-[here](https://pavilion2.readthedocs.io/en/latest/basics.html#host-configs) for
-more information.
-
 ## Running tests
 
 Login to front end and setup environment. Need to setup your `PATH` to include
 `pavilion2/bin` and set `PAV_CONFIG_DIR` to the location of sanitarium:
 
 ```
-$ ssh huey
 $ export PAV_CONFIG_DIR=/PATH/TO/sanitarium
 $ export PATH=/PATH/TO/pavilion2/bin:$PATH
 ```
@@ -54,66 +37,69 @@ $ export PATH=/PATH/TO/pavilion2/bin:$PATH
 
 ```
 $ pav show tests
- Available Tests                                                            
+  Available Tests
 -----------------+---------------------------------------------------------
- Name            | Summary                                                 
+ Name            | Summary
 -----------------+---------------------------------------------------------
- sanity.jobarray | Test for Slurm job array support                        
- sanity.mpi      | A basic MPI test. Uses openmpi module to run supermagic 
+ sanity.gpu      | A basic GPU test. Uses CUDA module to run vector_add
+ sanity.intelmpi | A basic Intel MPI test.
+ sanity.jobarray | Test for Slurm job array support
+ sanity.mpi      | A basic MPI test. Uses openmpi module to run supermagic
+ sanity.scratch  | Test reading/writing to scratch
 ```
 
 ## Run all sanity tests
 
 ```
-$ pav run sanity
+$ pav run -m dev sanity
 BUILD_REUSED: 2                   
 2 tests started as test series s20.
 
-$ pav results
- Test Results                  
------------------+----+--------
- Name            | Id | Result 
------------------+----+--------
- sanity.jobarray | 22 | PASS   
- sanity.mpi      | 23 | PASS
+$ pav status
+ Test statuses                                                                   
+------+---------------------+-----------------+-------+----------+--------+----------
+ Test | Job id              | Name            | Nodes | State    | Result | Time     
+------+---------------------+-----------------+-------+----------+--------+----------
+ 10   | job_2530_cld-squall | sanity.gpu      | 1     | COMPLETE | PASS   | 16:52:51 
+ 9    | job_2527_cld-squall | sanity.intelmpi | 2     | COMPLETE | PASS   | 16:52:52 
+ 8    | job_2527_cld-squall | sanity.mpi      | 2     | COMPLETE | PASS   | 16:52:44 
+ 7    | job_2529_cld-squall | sanity.jobarray | 1     | COMPLETE | PASS   | 16:53:11 
+ 6    | job_2528_cld-squall | sanity.scratch  | 1     | COMPLETE | PASS   | 16:53:11
 ```
 
 ## Get detailed results of a test run
 
 ```
-pav results -f 22
-[{'created': '2020-05-16 20:00:09.919283',
-  'duration': '0:00:00.169232',
-  'finished': '2020-05-16 20:00:09.975418',
-  'fn': {'array_395-1.out': {'slurm_array_task_id': '1'},
-         'array_395-2.out': {'slurm_array_task_id': '2'},
-         'array_395-3.out': {'slurm_array_task_id': '3'},
-         'array_395-4.out': {'slurm_array_task_id': '4'},
-         'array_395-5.out': {'slurm_array_task_id': '5'}},
-  'id': 22,
-  'job_id': '395',
-  'name': 'sanity.jobarray',
+pav results -f 10
+[{'created': 1658609552.9155178,
+  'duration': 10.485295057296753,
+  'finish_date': '2022/07/23 16:52:51',
+  'finished': 1658609571.0483806,
+  'id': 10,
+  'job_info': {'id': '2530', 'sys_name': 'cld-squall'},
+  'name': 'sanity.gpu',
   'pav_result_errors': [],
+  'pav_version': '2.4',
+  'per_file': {},
+  'permute_on': {},
   'result': 'PASS',
-  'sched': {'alloc_cpu_total': ['8'],
-            'alloc_max_mem': ['23000'],
-            'alloc_max_ppn': ['8'],
-            'alloc_min_mem': ['23000'],
-            'alloc_min_ppn': ['8'],
-            'alloc_node_list': ['cpn-d13-16'],
-            'alloc_nodes': ['1'],
-            'max_mem': ['23000'],
-            'max_ppn': ['8'],
-            'min_mem': ['23000'],
-            'min_ppn': ['8'],
-            'nodes': ['16'],
-            'nodes_avail': ['11'],
-            'nodes_up': ['11'],
-            'test_cmd': ['srun -N 1 -n 1'],
-            'test_node_list': ['cpn-d13-16'],
-            'test_nodes': ['1'],
-            'test_procs': ['1']},
-  'started': '2020-05-16 20:00:09.806186',
-  'sys_name': 'cld-huey',
-  'user': 'testsuite'}]
+  'results_log': '/user/testsuite/pavwork/src/working_dir/test_runs/10/results.log',
+  'return_value': 0,
+  'sched': {'chunk_ids': '0',
+            'errors': None,
+            'min_cpus': '6',
+            'min_mem': '0.019073486328125',
+            'node_list_id': '0',
+            'nodes': '9',
+            'tasks_per_node': '1',
+            'tasks_total': '1',
+            'test_cmd': 'srun -N 1 -w cpn-m11-18 -n 1',
+            'test_min_cpus': '8',
+            'test_min_mem': '0.2384185791015625',
+            'test_nodes': '1'},
+  'started': 1658609560.5630856,
+  'sys_name': 'cld-squall',
+  'test_version': '0.0',
+  'user': 'testsuite',
+  'uuid': 'e4743e21-fe76-4545-acbf-1f6b7e63ddc1'}]
 ```
