@@ -63,6 +63,10 @@ you want to run the testsuite.
 $ source $HOME/testsuite/venv/bin/activate
 $ export PAV_CONFIG_DIR=$HOME/testsuite/sanitarium
 $ export PATH=$HOME/testsuite/src/pavilion2/bin:$PATH
+
+# Test with specific arch (use avx for dev cluster)
+$ export MODULEPATH=${MODULEPATH//$CCR_ARCH/avx}
+$ export CCR_ARCH=avx
 ```
 
 6. Check installation was successful
