@@ -40,6 +40,7 @@ $ cd $HOME/testsuite/src
 $ wget https://github.com/ubccr/pavilion2/archive/refs/heads/fix-nodenames.zip
 $ unzip fix-nodenames.zip
 $ ln -s pavilion2-fix-nodenames pavilion2
+$ rm fix-nodenames.zip
 $ cd pavilion2
 $ ./bin/setup_pav_deps $HOME/testsuite/venv
 ```
@@ -49,7 +50,7 @@ $ ./bin/setup_pav_deps $HOME/testsuite/venv
 **NOTE** if you're developing checkout your own fork
 
 ```
-$ cd testsuite/
+$ cd $HOME/testsuite
 $ git clone https://github.com/ubccr/sanitarium.git
 ```
 
