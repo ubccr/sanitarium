@@ -85,7 +85,9 @@ $ pav show tests
  sanity.scratch  | Test reading/writing to scratch   
 ```
 
-## Run all tests
+## Example usage
+
+### Run all tests
 
 ```
 $ pav run -f ccr-test-suite
@@ -107,13 +109,13 @@ $ pav status
  127  | 2670_cld-squall | sanity.scratch  | 1     | general-compute | COMPLETE | PASS   | 15:54:58 
 ```
 
-## Run single test
+### Run single test
 
 ```
 $ pav run gpu.nvhpc
 ```
 
-## Check job output of test number 101
+### Check job output of test number 101
 
 ```
 $ pav log run 101
@@ -125,7 +127,7 @@ $ cat $HOME/testsuite/working_dir/test_runs/101/run.log
 $ ls $HOME/testsuite/working_dir/test_runs/101
 ```
 
-## Get detailed results of a test run
+### Get detailed results of a test run
 
 ```
 pav results -f 10
