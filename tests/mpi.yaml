@@ -1,0 +1,91 @@
+#-------------------------------------------------------------------
+# OpenMPI Test
+#-------------------------------------------------------------------
+openmpi:
+  summary: A basic OpenMPI test. Uses openmpi module to run supermagic
+  schedule:
+    nodes: 2
+    slurm:
+      sbatch_extra: ['--constraint=IB']
+  build:
+    modules: ['gcc/11.2.0', 'openmpi/4.1.1']
+    env:
+      CC: mpicc
+    source_path: supermagic-1.2.tar.gz
+    cmds:
+      - ./configure
+      - make
+  run:
+    modules: ['gcc/11.2.0', 'openmpi/4.1.1']
+    cmds:
+      - '{{sched.test_cmd}} ./supermagic'
+  result_parse:
+    regex:
+      num_tests:
+        regex: 'num tests.*: (\\d+)'
+      result:
+        regex:  '<results> PASSED'
+        action: store_true
+
+
+#-------------------------------------------------------------------
+# Intel MPI Test
+#-------------------------------------------------------------------
+intelmpi:
+  summary: A basic Intel MPI test.
+  schedule:
+    nodes: 2
+    slurm:
+      sbatch_extra: ['--constraint=IB']
+      mpi_cmd: srun
+  build:
+    modules: ['intel/2022.00']
+    env:
+      CC: mpicc
+    source_path: supermagic-1.2.tar.gz
+    cmds:
+      - ./configure
+      - make
+  run:
+    env:
+      I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
+      I_MPI_DEBUG: 4
+    modules: ['intel/2022.00']
+    cmds:
+      - '{{sched.test_cmd}} ./supermagic'
+  result_parse:
+    regex:
+      num_tests:
+        regex: 'num tests.*: (\\d+)'
+      result:
+        regex:  '<results> PASSED'
+        action: store_true
+
+#-------------------------------------------------------------------
+# Intel MPI PingPong
+#-------------------------------------------------------------------
+intelpong:
+  summary: Intel MPI PingPong test.
+  schedule:
+    nodes: 2
+    slurm:
+      sbatch_extra: ['--constraint=IB']
+      mpi_cmd: srun
+  run:
+    env:
+      I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
+      I_MPI_DEBUG: 4
+    modules: ['intel/2022.00']
+    cmds:
+      - '{{sched.test_cmd}} IMB-MPI1 PingPong'
+  result_parse:
+    regex:
+      fabric:
+        regex: 'libfabric provider: (.+)'
+      max_bytes:
+        regex: '# Maximum message length in bytes:   (\d+)'
+      mbytes_sec:
+        regex: '4194304\s+10\s+\d+\.\d+\s+(.+)'
+      result:
+        regex: '4194304\s+10\s+\d+\.\d+\s+(.+)'
+        action: store_true

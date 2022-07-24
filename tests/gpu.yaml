@@ -1,0 +1,24 @@
+#-------------------------------------------------------------------
+# GPU Tests
+#-------------------------------------------------------------------
+nvhpc:
+  summary: A basic GPU test. Uses NVHPC module to run vector_add
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+    slurm:
+      sbatch_extra: ['--gres=gpu:1']
+  build:
+    modules: ['nvhpc/21.11']
+    source_path: vector_add.cu
+    cmds:
+      - nvcc vector_add.cu -o vector_add
+  run:
+    modules: ['nvhpc/21.11']
+    cmds:
+      - '{{sched.test_cmd}} ./vector_add'
+  result_parse:
+    regex:
+      result:
+        regex:  'PASSED'
+        action: 'store_true'

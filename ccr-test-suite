@@ -1,0 +1,18 @@
+#==============================================================================
+# CCR Test suite
+#==============================================================================
+# This file lists all the tests to be run. If you add new tests, please update 
+#
+# To run all tests, run this command:
+#
+#  $ pav run -f ccr-test-suite
+#
+
+# Runs all sanity tests. See tests/sanity.yaml
+sanity
+
+# Runs all GPU tests. See tests/gpu.yaml
+gpu
+
+# Runs all MPI tests. See tests/mpi.yaml
+mpi
