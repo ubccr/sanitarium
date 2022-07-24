@@ -12,59 +12,112 @@ For documenation on writing tests see [here](https://pavilion2.readthedocs.io/en
 - Python 3.6 
 - Pavilion2
 
-Install Pavilion2
+## Installation
 
-Follow docs for installing pavilion [here](https://pavilion2.readthedocs.io/en/latest/install.html)
+Read the docs for installing pavilion [here](https://pavilion2.readthedocs.io/en/latest/install.html)
 
-Checkout CCR HPC Test Suite
-
-```
-$ git clone git@github.com:ubccr/sanitarium.git
-$ cd sanitarium
-```
-
-## Running tests
-
-Login to front end and setup environment. Need to setup your `PATH` to include
-`pavilion2/bin` and set `PAV_CONFIG_DIR` to the location of sanitarium:
+1. Create directory structure per pavilion docs (see above)
 
 ```
-$ export PAV_CONFIG_DIR=/PATH/TO/sanitarium
-$ export PATH=/PATH/TO/pavilion2/bin:$PATH
+$ mkdir -p $HOME/testsuite/{src,working_dir}
 ```
 
-## Show all available tests
+2. Setup a virtual env
+
+```
+$ cd $HOME/testsuite
+$ python3 -mvenv venv
+$ source venv/bin/activate
+```
+
+3. Install pavilion
+
+**NOTE** Once [PR #534](https://github.com/hpc/pavilion2/pull/524) is merged we
+can install directly from upstream.
+
+```
+$ cd $HOME/testsuite/src
+$ wget https://github.com/ubccr/pavilion2/archive/refs/heads/fix-nodenames.zip
+$ unzip fix-nodenames.zip
+$ ln -s pavilion2-fix-nodenames pavilion2
+$ cd pavilion2
+$ ./bin/setup_pav_deps $HOME/testsuite/venv
+```
+
+4. Checkout sanitarium test suite
+
+**NOTE** if you're developing checkout your own fork
+
+```
+$ cd testsuite/
+$ git clone https://github.com/ubccr/sanitarium.git
+```
+
+5. Set environment variables 
+
+Add these to your .bashrc or create a script to set them and source it whenever
+you want to run the testsuite.
+
+```
+$ source $HOME/testsuite/venv/bin/activate
+$ export PAV_CONFIG_DIR=$HOME/testsuite/sanitarium
+$ export PATH=$HOME/testsuite/src/pavilion2/bin:$PATH
+```
+
+6. Check installation was successful
 
 ```
 $ pav show tests
-  Available Tests
------------------+---------------------------------------------------------
- Name            | Summary
------------------+---------------------------------------------------------
- sanity.gpu      | A basic GPU test. Uses CUDA module to run vector_add
- sanity.intelmpi | A basic Intel MPI test.
- sanity.jobarray | Test for Slurm job array support
- sanity.mpi      | A basic MPI test. Uses openmpi module to run supermagic
- sanity.scratch  | Test reading/writing to scratch
+ Available Tests                                                                
+-----------------+-------------------------------------------------------------
+ Name            | Summary                                                     
+-----------------+-------------------------------------------------------------
+ gpu.nvhpc       | A basic GPU test. Uses NVHPC module to run vector_add       
+ mpi.intelmpi    | A basic Intel MPI test.                                     
+ mpi.intelpong   | Intel MPI PingPong test.                                    
+ mpi.openmpi     | A basic OpenMPI test. Uses openmpi module to run supermagic 
+ sanity.jobarray | Test for Slurm job array support                            
+ sanity.scratch  | Test reading/writing to scratch   
 ```
 
-## Run all sanity tests
+## Run all tests
 
 ```
-$ pav run -m dev sanity
-BUILD_REUSED: 2                   
-2 tests started as test series s20.
+$ pav run -f ccr-test-suite
+Resolving Test Configs: 100%
+Creating Test Runs: 100%
+Building 6 tests for test set cmd_line.
+BUILD_REUSED: 6
 
 $ pav status
- Test statuses                                                                   
-------+---------------------+-----------------+-------+----------+--------+----------
- Test | Job id              | Name            | Nodes | State    | Result | Time     
-------+---------------------+-----------------+-------+----------+--------+----------
- 10   | job_2530_cld-squall | sanity.gpu      | 1     | COMPLETE | PASS   | 16:52:51 
- 9    | job_2527_cld-squall | sanity.intelmpi | 2     | COMPLETE | PASS   | 16:52:52 
- 8    | job_2527_cld-squall | sanity.mpi      | 2     | COMPLETE | PASS   | 16:52:44 
- 7    | job_2529_cld-squall | sanity.jobarray | 1     | COMPLETE | PASS   | 16:53:11 
- 6    | job_2528_cld-squall | sanity.scratch  | 1     | COMPLETE | PASS   | 16:53:11
+ Test statuses                                                                                
+------+-----------------+-----------------+-------+-----------------+----------+--------+----------
+ Test | Job id          | Name            | Nodes | Part            | State    | Result | Updated  
+------+-----------------+-----------------+-------+-----------------+----------+--------+----------
+ 132  | 2675_cld-squall | mpi.openmpi     | 2     | general-compute | COMPLETE | PASS   | 15:54:31 
+ 131  | 2674_cld-squall | mpi.intelpong   | 2     | general-compute | COMPLETE | PASS   | 15:54:31 
+ 130  | 2673_cld-squall | mpi.intelmpi    | 2     | general-compute | COMPLETE | PASS   | 15:54:30 
+ 129  | 2672_cld-squall | gpu.nvhpc       | 1     | general-compute | COMPLETE | PASS   | 15:54:28 
+ 128  | 2671_cld-squall | sanity.jobarray | 1     | general-compute | COMPLETE | PASS   | 15:54:58 
+ 127  | 2670_cld-squall | sanity.scratch  | 1     | general-compute | COMPLETE | PASS   | 15:54:58 
+```
+
+## Run single test
+
+```
+$ pav run gpu.nvhpc
+```
+
+## Check job output of test number 101
+
+```
+$ pav log run 101
+
+# The above command just looks at this file
+$ cat $HOME/testsuite/working_dir/test_runs/101/run.log
+
+# All interesting files are located in the test_runs dir:
+$ ls $HOME/testsuite/working_dir/test_runs/101
 ```
 
 ## Get detailed results of a test run

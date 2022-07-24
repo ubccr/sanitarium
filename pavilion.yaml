@@ -1,16 +1,5 @@
 # See: https://pavilion2.readthedocs.io/en/latest/config.html
 #
-# Currently, we do not set anything.
-#
-# This determines where your test run information is stored. If you don’t set
+# This determines where your test run information is stored. If you dont set
 # this, everyone will have a separate history in $HOME/.pavilion/working_dir.
-#working_dir
-#
-# If you have a shared working directory for multiple users, you need a shared
-# group to share those files. Pavilion will automatically write all files as
-# this group.
-#shared_group
-#
-# The result log holds all the result json for every test you run. If you want
-# to feed that into splunk, you may want to specify where to write it.
-#result_log
+working_dir: '$HOME/testsuite/working_dir'
