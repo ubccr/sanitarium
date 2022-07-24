@@ -1,5 +1,2 @@
-scheduler: slurm
 schedule:
-  partition: general-compute
-  qos: general-compute
   reservation: downtime
