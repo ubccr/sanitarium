@@ -32,15 +32,12 @@ $ source venv/bin/activate
 
 3. Install pavilion
 
-**NOTE** Once [PR #534](https://github.com/hpc/pavilion2/pull/524) is merged we
-can install directly from upstream.
-
 ```
 $ cd $HOME/testsuite/src
-$ wget https://github.com/ubccr/pavilion2/archive/refs/heads/fix-nodenames.zip
-$ unzip fix-nodenames.zip
-$ ln -s pavilion2-fix-nodenames pavilion2
-$ rm fix-nodenames.zip
+$ wget https://github.com/hpc/pavilion2/archive/refs/heads/master.zip
+$ unzip master.zip
+$ ln -s pavilion2-master/ pavilion2
+$ rm master.zip
 $ cd pavilion2
 $ ./bin/setup_pav_deps $HOME/testsuite/venv
 ```
