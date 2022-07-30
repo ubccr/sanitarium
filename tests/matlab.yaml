@@ -1,0 +1,58 @@
+#-------------------------------------------------------------------
+# Matlab Tests
+#-------------------------------------------------------------------
+helloworld:
+  summary: Test matlab compiler and runtime.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    modules: ['matlab/2021b']
+    source_path: hello.m
+    cmds:
+      - mcc -m -R -nodisplay hello.m
+  run:
+    modules: ['mcr/R2021b']
+    cmds:
+      - '{{sched.test_cmd}} ./run_hello.sh $MCRROOT'
+  result_parse:
+    regex:
+      result:
+        regex:  'CCR rocks!'
+        action: 'store_true'
+
+benchmark:
+  summary: A Matlab benchmark.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  run:
+    modules: ['matlab/2021b']
+    cmds:
+      - '{{sched.test_cmd}} matlab -nodisplay -batch "bench(5)"'
+  result_parse:
+    regex:
+      benchmark_results:
+        regex:  '^\s+([\d\.]+)\s+([\d\.]+)\s+([\d\.]+)\s+([\d\.]+)\s+([\d\.]+)\s+([\d\.]+)'
+        match_select: 'all'
+        action: 'count'
+  result_evaluate:
+    result: 'benchmark_results == 5'
+
+cosplot:
+  summary: A Matlab plotting test.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: cosplot.m
+  run:
+    modules: ['matlab/2021b']
+    cmds:
+      - '{{sched.test_cmd}} matlab -nodisplay -singleCompThread -batch "cosplot"'
+  result_parse:
+    regex:
+      result:
+        regex:  '%%Title: ./matlab_test_plot.ps'
+        files: 'matlab_test_plot.ps'
+        action: 'store_true'
