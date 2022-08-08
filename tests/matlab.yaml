@@ -1,6 +1,23 @@
 #-------------------------------------------------------------------
 # Matlab Tests
 #-------------------------------------------------------------------
+license:
+  summary: Check Matlab license.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  run:
+    modules: ['matlab/2021b']
+    cmds:
+      - '{{sched.test_cmd}} matlab -nodisplay -nojvm -batch "disp(license())"'
+  result_parse:
+    regex:
+      matlab_license_number:
+        regex:  '^([\d]+)'
+      result:
+        regex:  '^([\d]+)'
+        action: 'store_true'
+
 helloworld:
   summary: Test matlab compiler and runtime.
   schedule:
