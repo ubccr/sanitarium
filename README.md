@@ -27,7 +27,6 @@ $ mkdir -p $HOME/testsuite/{src,working_dir}
 ```
 $ cd $HOME/testsuite
 $ python3 -mvenv venv
-$ source venv/bin/activate
 ```
 
 3. Install pavilion
