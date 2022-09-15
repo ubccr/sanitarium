@@ -119,4 +119,6 @@ osupong:
       result:
         regex: 'OSU MPI Latency Test'
         action: store_true
+  result_evaluate:
+    result: 'min_lat < 50'
 
