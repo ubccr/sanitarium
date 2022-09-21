@@ -89,3 +89,36 @@ intelpong:
       result:
         regex: '4194304\s+10\s+\d+\.\d+\s+(.+)'
         action: store_true
+
+#-------------------------------------------------------------------
+# OpenMPI OSC PingPong
+#-------------------------------------------------------------------
+osupong:
+  summary: OpenMPI OSU PingPong test.
+  schedule:
+    nodes: 2
+    slurm:
+      sbatch_extra: ['--constraint=IB', '--ntasks-per-node=1']
+  build:
+    modules: ['foss/2021b']
+    env:
+      CC: mpicc
+      CXX: mpicxx
+    source_path: osu-micro-benchmarks-6.0.tar.gz
+    cmds:
+      - ./configure
+      - make
+  run:
+    modules: ['foss/2021b']
+    cmds:
+      - '{{sched.test_cmd}} c/mpi/pt2pt/osu_latency'
+  result_parse:
+    regex:
+      min_lat:
+        regex: '^0\s+(.+)'
+      result:
+        regex: 'OSU MPI Latency Test'
+        action: store_true
+  result_evaluate:
+    result: 'min_lat < 50'
+
