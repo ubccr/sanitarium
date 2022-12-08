@@ -1,0 +1,19 @@
+#-------------------------------------------------------------------
+# R Tests
+#-------------------------------------------------------------------
+helloworld:
+  summary: Test R runtime.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: test-iris.R
+  run:
+    modules: ['r/4.2.0']
+    cmds:
+      - '{{sched.test_cmd}} Rscript --no-save --no-restore ./test-iris.R'
+  result_parse:
+    regex:
+      result:
+        regex:  '5.843333'
+        action: 'store_true'
