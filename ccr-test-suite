@@ -19,3 +19,6 @@ mpi
 
 # Runs all MATLAB tests. See tests/matlab.yaml
 matlab
+
+# Runs all R tests. See tests/rlang.yaml
+rlang
