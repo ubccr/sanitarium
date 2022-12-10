@@ -12,7 +12,7 @@ nvhpc:
     modules: ['nvhpc/21.11']
     source_path: vector_add.cu
     cmds:
-      - nvcc vector_add.cu -o vector_add
+      - nvcc -gencode=arch=compute_61,code=sm_61 vector_add.cu -o vector_add
   run:
     modules: ['nvhpc/21.11']
     cmds:
