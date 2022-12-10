@@ -1,0 +1,53 @@
+#-------------------------------------------------------------------
+# Python Tests
+#-------------------------------------------------------------------
+helloworld:
+  summary: Test python runtime.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: hello.py
+  run:
+    modules: ['gcc', 'python']
+    cmds:
+      - '{{sched.test_cmd}} python3 ./hello.py'
+  result_parse:
+    regex:
+      result:
+        regex:  'hello ccr'
+        action: 'store_true'
+
+ipython:
+  summary: Test IPython
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: hello.py
+  run:
+    modules: ['gcc', 'ipython']
+    cmds:
+      - '{{sched.test_cmd}} ipython3 ./hello.py'
+  result_parse:
+    regex:
+      result:
+        regex:  'hello ccr'
+        action: 'store_true'
+
+scipy:
+  summary: Test scipy bundle
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: test-scipy.py
+  run:
+    modules: ['foss', 'scipy-bundle']
+    cmds:
+      - '{{sched.test_cmd}} python3 ./test-scipy.py'
+  result_parse:
+    regex:
+      result:
+        regex:  'numpy: '
+        action: 'store_true'
