@@ -7,7 +7,7 @@ license:
     nodes: 1
     tasks_per_node: 1
   run:
-    modules: ['matlab/2021b']
+    modules: ['matlab']
     cmds:
       - '{{sched.test_cmd}} matlab -nodisplay -nojvm -batch "disp(license())"'
   result_parse:
@@ -24,12 +24,12 @@ helloworld:
     nodes: 1
     tasks_per_node: 1
   build:
-    modules: ['matlab/2021b']
+    modules: ['matlab']
     source_path: hello.m
     cmds:
       - mcc -m -R -nodisplay hello.m
   run:
-    modules: ['mcr/R2021b']
+    modules: ['mcr']
     cmds:
       - '{{sched.test_cmd}} ./run_hello.sh $MCRROOT'
   result_parse:
@@ -44,7 +44,7 @@ benchmark:
     nodes: 1
     tasks_per_node: 1
   run:
-    modules: ['matlab/2021b']
+    modules: ['matlab']
     cmds:
       - '{{sched.test_cmd}} matlab -nodisplay -batch "bench(5)"'
   result_parse:
@@ -64,7 +64,7 @@ cosplot:
   build:
     source_path: cosplot.m
   run:
-    modules: ['matlab/2021b']
+    modules: ['matlab']
     cmds:
       - '{{sched.test_cmd}} matlab -nodisplay -singleCompThread -batch "cosplot"'
   result_parse:

@@ -22,3 +22,6 @@ matlab
 
 # Runs all R tests. See tests/rlang.yaml
 rlang
+
+# Runs all python tests. See tests/python.yaml
+python
