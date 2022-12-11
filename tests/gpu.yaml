@@ -9,12 +9,34 @@ nvhpc:
     slurm:
       sbatch_extra: ['--gres=gpu:1']
   build:
-    modules: ['nvhpc/21.11']
+    modules: ['nvhpc']
     source_path: vector_add.cu
     cmds:
       - nvcc -gencode=arch=compute_61,code=sm_61 vector_add.cu -o vector_add
   run:
-    modules: ['nvhpc/21.11']
+    modules: ['nvhpc']
+    cmds:
+      - '{{sched.test_cmd}} ./vector_add'
+  result_parse:
+    regex:
+      result:
+        regex:  'PASSED'
+        action: 'store_true'
+
+cuda:
+  summary: A basic GPU test. Uses CUDA module to run vector_add
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+    slurm:
+      sbatch_extra: ['--gres=gpu:1']
+  build:
+    modules: ['cuda']
+    source_path: vector_add.cu
+    cmds:
+      - nvcc vector_add.cu -o vector_add
+  run:
+    modules: ['cuda']
     cmds:
       - '{{sched.test_cmd}} ./vector_add'
   result_parse:
