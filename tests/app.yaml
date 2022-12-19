@@ -1,0 +1,71 @@
+#
+# Miscellaneous Application Tests
+#
+#-------------------------------------------------------------------
+# NWChem Test
+#-------------------------------------------------------------------
+nwchem:
+  summary: basic NWChem test, C2H4
+  build:
+    source_path: nwchem-c2h4.tar.gz
+  schedule:
+    nodes: 1
+    tasks_per_node: 2
+    slurm:
+       mpi_cmd: srun
+  run:
+    env:
+      I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
+      I_MPI_DEBUG: 4
+    modules: ['intel', 'nwchem']
+    cmds:
+      - '{{sched.test_cmd}} nwchem c2h4.inp'
+  result_parse:
+    regex:
+      result:
+        regex:  'Total SCF energy'
+        action: store_true
+#
+# QE 
+#
+qe:
+  summary: basic QE test, C4H8N2
+  build:
+    source_path: qe-test.tar.gz
+  schedule:
+    nodes: 1
+    tasks_per_node: 2
+    slurm:
+       mpi_cmd: srun
+  run:
+    env:
+      OMP_NUM_THREADS: 1
+    modules: ['foss', 'quantumespresso']
+    cmds:
+      - '{{sched.test_cmd}} pw.x -in test2.in'
+  result_parse:
+    regex:
+      result:
+        regex:  '!    total energy'
+        action: store_true
+#
+# NAMD
+#
+namd:
+  summary: basic NAMD test, JAC1000
+  build:
+    source_path: namd-jac1000.tar.gz
+  schedule:
+    nodes: 1
+    tasks_per_node: 2
+    slurm:
+       mpi_cmd: srun
+  run:
+    modules: ['foss', 'namd']
+    cmds:
+      - '{{sched.test_cmd}} namd2 jac1000.namd'
+  result_parse:
+    regex:
+      result:
+        regex:  'TIMING: 1000'
+        action: store_true
