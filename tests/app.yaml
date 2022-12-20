@@ -8,10 +8,14 @@ nwchem:
   summary: basic NWChem test, C2H4
   build:
     source_path: nwchem-c2h4.tar.gz
+  scheduler: slurm
   schedule:
-    nodes: 1
-    tasks_per_node: 2
+    partition: general-compute
+    qos: general-compute
+    nodes: 2
+    tasks_per_node: 1
     slurm:
+       sbatch_extra: ['--constraint=IB|OPA','--constraint=CPU-Gold-6130|CPU-Gold-6230|CPU-Gold-6330']
        mpi_cmd: srun
   run:
     env:
