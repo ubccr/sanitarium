@@ -100,7 +100,7 @@ osupong:
     slurm:
       sbatch_extra: ['--constraint=IB', '--ntasks-per-node=1']
   build:
-    modules: ['foss/2021b']
+    modules: ['foss']
     env:
       CC: mpicc
       CXX: mpicxx
