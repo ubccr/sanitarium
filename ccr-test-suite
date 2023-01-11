@@ -25,3 +25,9 @@ rlang
 
 # Runs all python tests. See tests/python.yaml
 python
+
+# Runs all go tests. See tests/go.yaml
+go
+
+# Runs all app tests. See tests/app.yaml
+app
