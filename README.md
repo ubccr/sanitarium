@@ -3,71 +3,33 @@
 Sanitarium is a test suite for automated acceptance testing of CCR's HPC
 clusters. These are used to sanity check clusters after downtimes along with
 helping assess changes and upgrades to the Slurm scheduler. All tests are
-written for [Pavilion2](https://github.com/hpc/pavilion2)
+written for [Pavilion2](https://github.com/hpc/pavilion2) and assume you're
+using CCR's software infrastructure which includes pavilion as a module.
 
 For documenation on writing tests see [here](https://pavilion2.readthedocs.io/en/latest/).
 
-## Requirements
+## Initial Setup
 
-- Python 3.6 
-- Pavilion2
-
-## Installation
-
-Read the docs for installing pavilion [here](https://pavilion2.readthedocs.io/en/latest/install.html)
-
-1. Create directory structure per pavilion docs (see above)
+1. Create working directory for pavilion test output:
 
 ```
-$ mkdir -p $HOME/testsuite/{src,working_dir}
+$ mkdir -p $HOME/testsuite/working_dir
 ```
 
-2. Setup a virtual env
+2. [Fork this repo](https://github.com/ubccr/sanitarium/fork)
+
+
+3. Clone your fork into $HOME/testsuite:
 
 ```
 $ cd $HOME/testsuite
-$ python3 -mvenv venv
+$ git clone https://github.com/YOURUSER/sanitarium.git
 ```
 
-3. Install pavilion
+3. Check that everything works:
 
 ```
-$ cd $HOME/testsuite/src
-$ wget https://github.com/hpc/pavilion2/archive/refs/heads/master.zip
-$ unzip master.zip
-$ ln -s pavilion2-master/ pavilion2
-$ rm master.zip
-$ cd pavilion2
-$ ./bin/setup_pav_deps $HOME/testsuite/venv
-```
-
-4. Checkout sanitarium test suite
-
-**NOTE** if you're developing checkout your own fork
-
-```
-$ cd $HOME/testsuite
-$ git clone https://github.com/ubccr/sanitarium.git
-```
-
-5. Set environment variables 
-
-Add these to your .bashrc or create a script to set them and source it whenever
-you want to run the testsuite.
-
-```
-$ source $HOME/testsuite/venv/bin/activate
-$ export PAV_CONFIG_DIR=$HOME/testsuite/sanitarium
-$ export PATH=$HOME/testsuite/src/pavilion2/bin:$PATH
-
-# Test with specific arch (use avx for dev cluster)
-$ export MODULEPATH=${MODULEPATH//$CCR_ARCH/avx}
-$ export CCR_ARCH=avx
-```
-
-6. Check installation was successful
-
-```
+$ module load pavilion
 $ pav show tests
  Available Tests                                                                
 -----------------+-------------------------------------------------------------
@@ -159,3 +121,11 @@ pav results -f 10
   'user': 'testsuite',
   'uuid': 'e4743e21-fe76-4545-acbf-1f6b7e63ddc1'}]
 ```
+
+## Manual Installation
+
+Read the docs for installing pavilion [here](https://pavilion2.readthedocs.io/en/latest/install.html)
+
+## License
+
+GNU General Public License v3.0. See LICENSE file.
