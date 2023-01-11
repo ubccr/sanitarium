@@ -1,0 +1,21 @@
+#-------------------------------------------------------------------
+# Go Tests
+#-------------------------------------------------------------------
+helloworld:
+  summary: Test the Go compiler
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    modules: ['go']
+    source_path: ccrhello-golang.tar.gz
+    cmds:
+      - go build ccrhello.go
+  run:
+    cmds:
+      - '{{sched.test_cmd}} ./ccrhello'
+  result_parse:
+    regex:
+      result:
+        regex:  'Hello CCR'
+        action: store_true
