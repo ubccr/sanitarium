@@ -73,3 +73,25 @@ namd:
       result:
         regex:  'TIMING: 1000'
         action: store_true
+
+#-------------------------------------------------------------------
+# svFSI
+#-------------------------------------------------------------------
+svfsi:
+  summary: example svFSI test
+  build:
+    source_path: svFSI-test-06-channel-flow-2D.tar.gz
+  schedule:
+    nodes: 1
+    tasks_per_node: 2
+    slurm:
+       mpi_cmd: srun
+  run:
+    modules: ['foss', 'svfsi']
+    cmds:
+      - '{{sched.test_cmd}} svFSI ./svFSI_Taylor-Hood.inp'
+  result_parse:
+    regex:
+      result:
+        regex:  'NS   100-1s'
+        action: store_true
