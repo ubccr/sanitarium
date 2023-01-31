@@ -111,7 +111,7 @@ lammps:
   run:
     modules: ['foss', 'lammps']
     cmds:
-      - '{{sched.test_cmd}} lmp_mpi -in in.rhodo '
+      - '{{sched.test_cmd}} lmp -in in.rhodo '
   result_parse:
     regex:
       result:
@@ -124,15 +124,13 @@ lammps:
 petsc:
   summary: PETSC ex50 tutorial build/test
   build:
-    modules: ['foss']
+    modules: ['foss','petsc']
     env:
       CC: mpicc
       CXX: mpicxx
     source_path: petsc-ex50.tar.gz
     cmds:
       - make ex50
-  build:
-    source_path: petsc-ex50.tar.gz
   schedule:
     nodes: 1
     tasks_per_node: 2
@@ -144,6 +142,11 @@ petsc:
       - '{{sched.test_cmd}} ./ex50  -da_grid_x 120 -da_grid_y 120 -pc_type lu -pc_factor_mat_solver_package superlu_dist -ksp_monitor -ksp_view '
   result_parse:
     regex:
-      result:
-        regex:  '1 KSP Residual norm 2.133627389912e-14'
-        action: store_true
+      norm:
+        regex:  '  1 KSP Residual norm\s+(.+)'
+      tol: 
+        regex: '   tolerance for zero pivot\s+(.+)'
+  result_evaluate:
+     result: 'norm < tol'
+
+
