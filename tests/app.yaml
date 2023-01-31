@@ -8,7 +8,7 @@ nwchem:
   summary: basic NWChem test, C2H4
   build:
     source_path: nwchem-c2h4.tar.gz
-  scheduler: slurm
+#  scheduler: slurm
   schedule:
     partition: general-compute
     qos: general-compute
@@ -94,4 +94,56 @@ svfsi:
     regex:
       result:
         regex:  'NS   100-1s'
+        action: store_true
+
+#-------------------------------------------------------------------
+# LAMMPS rhodopsin quick test
+#-------------------------------------------------------------------
+lammps:
+  summary: LAMMPS rhodopsin benchmark
+  build:
+    source_path: lammps-rhodo.tar.gz
+  schedule:
+    nodes: 1
+    tasks_per_node: 2
+    slurm:
+       mpi_cmd: srun
+  run:
+    modules: ['foss', 'lammps']
+    cmds:
+      - '{{sched.test_cmd}} lmp_mpi -in in.rhodo '
+  result_parse:
+    regex:
+      result:
+        regex:  'Performance:'
+        action: store_true
+
+#-------------------------------------------------------------------
+# PETSC quick build and test
+#-------------------------------------------------------------------
+petsc:
+  summary: PETSC ex50 tutorial build/test
+  build:
+    modules: ['foss']
+    env:
+      CC: mpicc
+      CXX: mpicxx
+    source_path: petsc-ex50.tar.gz
+    cmds:
+      - make ex50
+  build:
+    source_path: petsc-ex50.tar.gz
+  schedule:
+    nodes: 1
+    tasks_per_node: 2
+    slurm:
+       mpi_cmd: srun
+  run:
+    modules: ['foss', 'petsc']
+    cmds:
+      - '{{sched.test_cmd}} ./ex50  -da_grid_x 120 -da_grid_y 120 -pc_type lu -pc_factor_mat_solver_package superlu_dist -ksp_monitor -ksp_view '
+  result_parse:
+    regex:
+      result:
+        regex:  '1 KSP Residual norm 2.133627389912e-14'
         action: store_true
