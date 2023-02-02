@@ -78,7 +78,7 @@ namd:
 # svFSI
 #-------------------------------------------------------------------
 svfsi:
-  summary: example svFSI test
+  summary: basic svFSI test
   build:
     source_path: svFSI-test-06-channel-flow-2D.tar.gz
   schedule:
@@ -94,4 +94,25 @@ svfsi:
     regex:
       result:
         regex:  'NS   100-1s'
+        action: store_true
+
+#-------------------------------------------------------------------
+# mosdepth
+#-------------------------------------------------------------------
+mosdepth:
+  summary: basic mosdepth test
+  build:
+    source_path: mosdepth-test.tar.gz
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  run:
+    modules: ['gcc', 'mosdepth']
+    cmds:
+      - '{{sched.test_cmd}} mosdepth t ./ovl.bam'
+  result_parse:
+    regex:
+      result:
+        regex:  'MT	16569	80	0.00	0	1'
+        files: 't.mosdepth.summary.txt'
         action: store_true
