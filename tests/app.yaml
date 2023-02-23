@@ -210,3 +210,23 @@ vcftools:
         regex:  'kept 1356 out of a possible 1356 Sites'
         action: 'store_true'
 
+#-------------------------------------------------------------------
+# SamTools Test
+#-------------------------------------------------------------------
+samtools:
+  summary: Basic samtools test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: samtest.bam.gz
+  run:
+    modules: ['gcc', 'samtools']
+    cmds:
+      - '{{sched.test_cmd}} samtools view ./samtest.bam | wc -l'
+  result_parse:
+    regex:
+      result:
+        regex:  '3307'
+        action: 'store_true'
+
