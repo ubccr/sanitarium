@@ -169,3 +169,24 @@ mosdepth:
         regex:  'MT	16569	80	0.00	0	1'
         files: 't.mosdepth.summary.txt'
         action: store_true
+
+#-------------------------------------------------------------------
+# VCFTools Test
+#-------------------------------------------------------------------
+vcftools:
+  summary: Basic vcftools test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: input-data.vcf.gz
+  run:
+    modules: ['gcc', 'vcftools']
+    cmds:
+      - '{{sched.test_cmd}} vcftools --vcf ./input-data.vcf'
+  result_parse:
+    regex:
+      result:
+        regex:  'kept 1356 out of a possible 1356 Sites'
+        action: 'store_true'
+
