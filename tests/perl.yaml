@@ -1,0 +1,20 @@
+#-------------------------------------------------------------------
+# Perl Tests
+#-------------------------------------------------------------------
+helloworld:
+  summary: Test perl runtime.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: hello.pl
+  run:
+    modules: ['gcc', 'perl']
+    cmds:
+      - '{{sched.test_cmd}} perl ./hello.pl'
+  result_parse:
+    regex:
+      result:
+        regex:  'hello ccr'
+        action: 'store_true'
+
