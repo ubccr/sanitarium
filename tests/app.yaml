@@ -169,3 +169,64 @@ mosdepth:
         regex:  'MT	16569	80	0.00	0	1'
         files: 't.mosdepth.summary.txt'
         action: store_true
+
+#-------------------------------------------------------------------
+# Perl Tests
+#-------------------------------------------------------------------
+perl:
+  summary: Basic perl test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: hello.pl
+  run:
+    modules: ['gcc', 'perl']
+    cmds:
+      - '{{sched.test_cmd}} perl ./hello.pl'
+  result_parse:
+    regex:
+      result:
+        regex:  'hello ccr'
+        action: 'store_true'
+
+#-------------------------------------------------------------------
+# VCFTools Test
+#-------------------------------------------------------------------
+vcftools:
+  summary: Basic vcftools test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: input-data.vcf.gz
+  run:
+    modules: ['gcc', 'vcftools']
+    cmds:
+      - '{{sched.test_cmd}} vcftools --vcf ./input-data.vcf'
+  result_parse:
+    regex:
+      result:
+        regex:  'kept 1356 out of a possible 1356 Sites'
+        action: 'store_true'
+
+#-------------------------------------------------------------------
+# SamTools Test
+#-------------------------------------------------------------------
+samtools:
+  summary: Basic samtools test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: samtest.bam.gz
+  run:
+    modules: ['gcc', 'samtools']
+    cmds:
+      - '{{sched.test_cmd}} samtools view ./samtest.bam | wc -l'
+  result_parse:
+    regex:
+      result:
+        regex:  '3307'
+        action: 'store_true'
+
