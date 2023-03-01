@@ -230,3 +230,23 @@ samtools:
         regex:  '3307'
         action: 'store_true'
 
+#-------------------------------------------------------------------
+# BedTools Test
+#-------------------------------------------------------------------
+bedtools:
+  summary: Basic bedtools test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: bedtools.tar 
+  run:
+    modules: ['gcc', 'bedtools']
+    cmds:
+      - '{{sched.test_cmd}} bedtools intersect -a cpg.bed -b exons.bed -v |wc -l'
+  result_parse:
+    regex:
+      result:
+        regex:  '9846'
+        action: 'store_true'
+
