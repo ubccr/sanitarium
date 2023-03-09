@@ -253,7 +253,7 @@ bedtools:
 #-------------------------------------------------------------------
 # GAMESS-US Test
 #-------------------------------------------------------------------
-nwchem:
+gamess-us:
   summary: basic GAMESS-US test, C2H4
   build:
     source_path: gamess-c2h4.tar.gz
@@ -269,9 +269,10 @@ nwchem:
     env:
       I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
       I_MPI_DEBUG: 4
-    modules: ['intel', 'gamess']
+      TMPDIR: /tmp
+    modules: ['intel', 'gamess-us']
     cmds:
-      - 'rungms 00 4 c2h4-acctc.inp'
+      - 'rungms c2h4-acctc.inp 00 4'
   result_parse:
     regex:
       result:
