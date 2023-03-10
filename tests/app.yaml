@@ -250,3 +250,32 @@ bedtools:
         regex:  '9846'
         action: 'store_true'
 
+#-------------------------------------------------------------------
+# GAMESS-US Test
+#-------------------------------------------------------------------
+gamess-us:
+  summary: basic GAMESS-US test, C2H4
+  build:
+    source_path: gamess-c2h4.tar.gz
+#  scheduler: slurm
+  schedule:
+    partition: general-compute
+    qos: general-compute
+    nodes: 1
+    tasks_per_node: 4
+    slurm:
+       sbatch_extra: ['--constraint=IB|OPA','--constraint=CPU-Gold-6130|CPU-Gold-6230|CPU-Gold-6330']
+  run:
+    env:
+      I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
+      I_MPI_DEBUG: 4
+      TMPDIR: /tmp
+    modules: ['intel', 'gamess-us']
+    cmds:
+      - 'rungms c2h4-acctc.inp 00 4'
+  result_parse:
+    regex:
+      result:
+        regex:  'FINAL RHF ENERGY IS'
+        action: store_true
+#
