@@ -122,3 +122,33 @@ osupong:
   result_evaluate:
     result: 'min_lat < 50'
 
+#-------------------------------------------------------------------
+# Parallel MPI I/O Test using HDF5
+# NOTE: this currently writes to /vscratch/ccrstaff. Will need to
+# adjust this for the testsuite user
+#-------------------------------------------------------------------
+phdf5:
+  summary: A parallel mpi i/o test using HDF5
+  schedule:
+    nodes: 2
+    slurm:
+      sbatch_extra: ['--constraint=IB', '--ntasks-per-node=4']
+      mpi_cmd: srun
+  build:
+    modules: ['iimpi', 'hdf5']
+    source_path: ph5example.c
+    cmds:
+      - mpicc -o ph5example ph5example.c -I$EBROOTHDF5/include -I$EBROOTSZIP/include -L$EBROOTHDF5/lib -lhdf5 -LEBROOTSZIP/lib -lsz -Xlinker -rpath=$EBROOTHDF5/lib -Xlinker -rpath=$EBROOTSZIP/lib
+  run:
+    env:
+      I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
+      I_MPI_DEBUG: 4
+      HDF5_DISABLE_VERSION_CHECK: 1
+    modules: ['iimpi', 'hdf5']
+    cmds:
+      - '{{sched.test_cmd}} ./ph5example -f /vscratch/ccrstaff -v'
+  result_parse:
+    regex:
+      result:
+        regex:  'PHDF5 example finished with no errors'
+        action: store_true
