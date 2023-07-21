@@ -10,12 +10,9 @@ nwchem:
     source_path: nwchem-c2h4.tar.gz
 #  scheduler: slurm
   schedule:
-    partition: general-compute
-    qos: general-compute
     nodes: 2
-    tasks_per_node: 1
     slurm:
-       sbatch_extra: ['--constraint=IB|OPA','--constraint=CPU-Gold-6130|CPU-Gold-6230|CPU-Gold-6330']
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
        mpi_cmd: srun
   run:
     env:
@@ -37,9 +34,9 @@ qe:
   build:
     source_path: qe-test.tar.gz
   schedule:
-    nodes: 1
-    tasks_per_node: 2
+    nodes: 2
     slurm:
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
        mpi_cmd: srun
   run:
     env:
@@ -60,9 +57,9 @@ namd:
   build:
     source_path: namd-jac1000.tar.gz
   schedule:
-    nodes: 1
-    tasks_per_node: 2
+    nodes: 2
     slurm:
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
        mpi_cmd: srun
   run:
     modules: ['foss', 'namd']
@@ -104,9 +101,9 @@ lammps:
   build:
     source_path: lammps-rhodo.tar.gz
   schedule:
-    nodes: 1
-    tasks_per_node: 2
+    nodes: 2
     slurm:
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
        mpi_cmd: srun
   run:
     modules: ['foss', 'lammps']
@@ -132,9 +129,9 @@ petsc:
     cmds:
       - make ex50
   schedule:
-    nodes: 1
-    tasks_per_node: 2
+    nodes: 2
     slurm:
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
        mpi_cmd: srun
   run:
     modules: ['foss', 'petsc']
@@ -257,14 +254,11 @@ gamess-us:
   summary: basic GAMESS-US test, C2H4
   build:
     source_path: gamess-c2h4.tar.gz
-#  scheduler: slurm
   schedule:
-    partition: general-compute
-    qos: general-compute
-    nodes: 1
-    tasks_per_node: 4
+    nodes: 2
+    tasks_per_node: 2
     slurm:
-       sbatch_extra: ['--constraint=IB|OPA','--constraint=CPU-Gold-6130|CPU-Gold-6230|CPU-Gold-6330']
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
   run:
     env:
       I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
