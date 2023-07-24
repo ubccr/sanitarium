@@ -1,0 +1,6 @@
+scheduler: slurm
+schedule:
+  share_allocation: false
+  partition: general-compute
+  qos: general-compute
+  reservation: ubhpc-future
