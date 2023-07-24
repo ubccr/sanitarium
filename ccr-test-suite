@@ -9,7 +9,7 @@
 #
 
 # Runs all sanity tests. See tests/sanity.yaml
-sanity
+sanity.scratch
 
 # Runs all GPU tests. See tests/gpu.yaml
 gpu
