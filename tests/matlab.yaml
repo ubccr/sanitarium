@@ -24,6 +24,7 @@ helloworld:
     nodes: 1
     tasks_per_node: 1
   build:
+    timeout: 300
     modules: ['matlab']
     source_path: hello.m
     cmds:
@@ -62,6 +63,7 @@ cosplot:
     nodes: 1
     tasks_per_node: 1
   build:
+    timeout: 300
     source_path: cosplot.m
   run:
     modules: ['matlab']

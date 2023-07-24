@@ -12,7 +12,7 @@ nvhpc:
     modules: ['nvhpc']
     source_path: vector_add.cu
     cmds:
-      - nvcc -gencode=arch=compute_61,code=sm_61 vector_add.cu -o vector_add
+      - nvcc -Xcompiler "-Xlinker -rpath=/opt/software/nvidia/lib64" vector_add.cu -o vector_add
   run:
     modules: ['nvhpc']
     cmds:
@@ -34,7 +34,7 @@ cuda:
     modules: ['cuda']
     source_path: vector_add.cu
     cmds:
-      - nvcc vector_add.cu -o vector_add
+      - nvcc -Xcompiler "-Xlinker -rpath=/opt/software/nvidia/lib64" vector_add.cu -o vector_add
   run:
     modules: ['cuda']
     cmds:

@@ -79,10 +79,10 @@ svfsi:
   build:
     source_path: svFSI-test-06-channel-flow-2D.tar.gz
   schedule:
-    nodes: 1
-    tasks_per_node: 2
+    nodes: 2
     slurm:
        mpi_cmd: srun
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB','--constraint=AVX512']
   run:
     modules: ['foss', 'svfsi']
     cmds:
@@ -155,7 +155,6 @@ mosdepth:
     source_path: mosdepth-test.tar.gz
   schedule:
     nodes: 1
-    tasks_per_node: 1
   run:
     modules: ['gcc', 'mosdepth']
     cmds:
@@ -174,7 +173,6 @@ perl:
   summary: Basic perl test
   schedule:
     nodes: 1
-    tasks_per_node: 1
   build:
     source_path: hello.pl
   run:
@@ -194,7 +192,6 @@ vcftools:
   summary: Basic vcftools test
   schedule:
     nodes: 1
-    tasks_per_node: 1
   build:
     source_path: input-data.vcf.gz
   run:
@@ -214,7 +211,6 @@ samtools:
   summary: Basic samtools test
   schedule:
     nodes: 1
-    tasks_per_node: 1
   build:
     source_path: samtest.bam.gz
   run:
@@ -234,7 +230,6 @@ bedtools:
   summary: Basic bedtools test
   schedule:
     nodes: 1
-    tasks_per_node: 1
   build:
     source_path: bedtools.tar 
   run:
@@ -256,7 +251,6 @@ gamess-us:
     source_path: gamess-c2h4.tar.gz
   schedule:
     nodes: 2
-    tasks_per_node: 2
     slurm:
        sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
   run:

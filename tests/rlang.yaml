@@ -9,7 +9,7 @@ helloworld:
   build:
     source_path: test-iris.R
   run:
-    modules: ['r']
+    modules: ['foss', 'r']
     cmds:
       - '{{sched.test_cmd}} Rscript --no-save --no-restore ./test-iris.R'
   result_parse:
@@ -26,7 +26,7 @@ bioconductor:
   build:
     source_path: test-bioconductor.R
   run:
-    modules: ['r-bundle-bioconductor']
+    modules: ['foss', 'r-bundle-bioconductor']
     cmds:
       - '{{sched.test_cmd}} Rscript --no-save --no-restore ./test-bioconductor.R'
   result_parse:
