@@ -1,8 +1,0 @@
-scheduler: slurm
-schedule:
-  # This is necessary as 2 tests with different sbatch_extra params
-  # would run under the same job. Which is bad. Setting this to false
-  # ensures each test runs in it's own job
-  share_allocation: false
-  partition: general-compute
-  qos: general-compute
