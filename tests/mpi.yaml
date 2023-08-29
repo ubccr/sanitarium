@@ -132,7 +132,7 @@ phdf5:
   schedule:
     nodes: 2
     slurm:
-      sbatch_extra: ['--constraint=IB', '--ntasks-per-node=4']
+      sbatch_extra: ['--constraint="IB&AVX512"', '--ntasks-per-node=4']
       mpi_cmd: srun
   build:
     modules: ['iimpi', 'hdf5']
@@ -146,7 +146,7 @@ phdf5:
       HDF5_DISABLE_VERSION_CHECK: 1
     modules: ['iimpi', 'hdf5']
     cmds:
-      - '{{sched.test_cmd}} ./ph5example -f /vscratch/ccrstaff -v'
+      - '{{sched.test_cmd}} ./ph5example -f /vscratch/grp-ccradmintest -v'
   result_parse:
     regex:
       result:

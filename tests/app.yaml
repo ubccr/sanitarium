@@ -12,7 +12,7 @@ nwchem:
   schedule:
     nodes: 2
     slurm:
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
        mpi_cmd: srun
   run:
     env:
@@ -36,7 +36,7 @@ qe:
   schedule:
     nodes: 2
     slurm:
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
        mpi_cmd: srun
   run:
     env:
@@ -59,7 +59,7 @@ namd:
   schedule:
     nodes: 2
     slurm:
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
        mpi_cmd: srun
   run:
     modules: ['foss', 'namd']
@@ -82,7 +82,7 @@ svfsi:
     nodes: 2
     slurm:
        mpi_cmd: srun
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
   run:
     modules: ['foss', 'svfsi']
     cmds:
@@ -103,7 +103,7 @@ lammps:
   schedule:
     nodes: 2
     slurm:
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
        mpi_cmd: srun
   run:
     modules: ['foss', 'lammps']
@@ -131,7 +131,7 @@ petsc:
   schedule:
     nodes: 2
     slurm:
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
        mpi_cmd: srun
   run:
     modules: ['foss', 'petsc']
@@ -156,7 +156,7 @@ dakota:
   schedule:
     nodes: 2
     slurm:
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
        mpi_cmd: srun
   run:
     modules: ['foss', 'dakota']
@@ -275,7 +275,7 @@ gamess-us:
   schedule:
     nodes: 2
     slurm:
-       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       sbatch_extra: ['--tasks-per-node=2','--constraint="IB&AVX512"']
   run:
     env:
       I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
