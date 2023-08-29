@@ -146,6 +146,29 @@ petsc:
   result_evaluate:
      result: 'norm < tol'
      
+#
+# Dakota, simple UQ test
+#
+dakota:
+  summary: basic Dakota test, Heat Equation UQ LHS
+  build:
+    source_path: dakota-uq_heat_eq_mlcvmc.tgz
+  schedule:
+    nodes: 2
+    slurm:
+       sbatch_extra: ['--tasks-per-node=2','--constraint=IB|OPA','--constraint=AVX512']
+       mpi_cmd: srun
+  run:
+    modules: ['foss', 'dakota']
+    cmds:
+      - '{{sched.test_cmd}} dakota -i dakota_uq_heat_eq_mlcvmc.in -o dakota_uq_heat_eq_mlcvmc.out'
+  result_parse:
+    regex:
+      result:
+        regex:  'response_fn_1'
+        files: dakota_uq_heat_eq_mlcvmc.out
+        action: store_true
+
 #-------------------------------------------------------------------
 # mosdepth
 #-------------------------------------------------------------------
