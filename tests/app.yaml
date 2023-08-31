@@ -148,6 +148,7 @@ petsc:
      
 #
 # Dakota, simple UQ test
+#  n.b. dakota detection of MPI env is broken for srun (but ok for mpirun), need to use DAKOTA_RUN_PARALLEL=1
 #
 dakota:
   summary: basic Dakota test, Heat Equation UQ LHS
@@ -161,7 +162,7 @@ dakota:
   run:
     modules: ['foss', 'dakota']
     cmds:
-      - '{{sched.test_cmd}} dakota -i dakota_uq_heat_eq_mlcvmc.in -o dakota_uq_heat_eq_mlcvmc.out'
+      - '{{sched.test_cmd}} env DAKOTA_RUN_PARALLEL=1 dakota -i dakota_uq_heat_eq_mlcvmc.in -o dakota_uq_heat_eq_mlcvmc.out'
   result_parse:
     regex:
       result:
