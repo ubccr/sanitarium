@@ -23,7 +23,8 @@ $ mkdir -p $HOME/testsuite/working_dir
 
 ```
 $ cd $HOME/testsuite
-$ git clone https://github.com/YOURUSER/sanitarium.git
+$ git clone git@github.com:YOURUSER/sanitarium.git
+$ git remote add upstream git@github.com:ubccr/sanitarium.git
 ```
 
 3. Check that everything works:
