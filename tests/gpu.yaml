@@ -2,7 +2,7 @@
 # GPU Tests
 #-------------------------------------------------------------------
 nvhpc:
-  summary: A basic GPU test. Uses NVHPC module to run vector_add
+  summary: NVHPC module to compile with nvc++
   schedule:
     nodes: 1
     tasks_per_node: 1
@@ -10,17 +10,17 @@ nvhpc:
       sbatch_extra: ['--gres=gpu:1']
   build:
     modules: ['nvhpc']
-    source_path: vector_add.cu
+    source_path: saxpy.cpp
     cmds:
-      - nvcc -Xcompiler "-Xlinker -rpath=/opt/software/nvidia/lib64" vector_add.cu -o vector_add
+      - nvc++ -stdpar=multicore -o saxpy_cpu ./saxpy.cpp
   run:
     modules: ['nvhpc']
     cmds:
-      - '{{sched.test_cmd}} ./vector_add'
+      - '{{sched.test_cmd}} ./saxpy_cpu'
   result_parse:
     regex:
       result:
-        regex:  'PASSED'
+        regex:  'SUCCESS'
         action: 'store_true'
 
 cuda:
@@ -34,7 +34,7 @@ cuda:
     modules: ['cuda']
     source_path: vector_add.cu
     cmds:
-      - nvcc -Xcompiler "-Xlinker -rpath=/opt/software/nvidia/lib64" vector_add.cu -o vector_add
+      - nvcc vector_add.cu -o vector_add
   run:
     modules: ['cuda']
     cmds:
