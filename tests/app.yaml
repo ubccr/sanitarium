@@ -290,4 +290,22 @@ gamess-us:
       result:
         regex:  'FINAL RHF ENERGY IS'
         action: store_true
-#
+
+#-------------------------------------------------------------------
+# Cobaya Test
+#-------------------------------------------------------------------
+cobaya:
+  summary: Basic cobaya test
+  schedule:
+    nodes: 1
+  build:
+    source_path: gaussian-cobaya.yaml
+  run:
+    modules: ['foss', 'cobaya']
+    cmds:
+      - '{{sched.test_cmd}} cobaya-run -f gaussian-cobaya.yaml'
+  result_parse:
+    regex:
+      result:
+        regex:  'The run has converged'
+        action: 'store_true'
