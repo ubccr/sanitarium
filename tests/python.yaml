@@ -68,3 +68,20 @@ anaconda:
       result:
         regex:  'numpy: '
         action: 'store_true'
+
+opencv:
+  summary: Test OpenCV python
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: opencv-test.tar.gz
+  run:
+    modules: ['foss', 'opencv']
+    cmds:
+      - '{{sched.test_cmd}} python3 ./opencv-test.py'
+  result_parse:
+    regex:
+      result:
+        regex:  '378000'
+        action: 'store_true'
