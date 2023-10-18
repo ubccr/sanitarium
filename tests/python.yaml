@@ -85,3 +85,20 @@ opencv:
       result:
         regex:  '378000'
         action: 'store_true'
+
+spark:
+  summary: Test pyspark 
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+  build:
+    source_path: spark-test.py
+  run:
+    modules: ['foss', 'spark']
+    cmds:
+      - '{{sched.test_cmd}} python3 ./spark-test.py'
+  result_parse:
+    regex:
+      result:
+        regex:  '|  3|4.0|string3'
+        action: 'store_true'
