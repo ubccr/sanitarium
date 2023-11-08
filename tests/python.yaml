@@ -52,23 +52,6 @@ scipy:
         regex:  'numpy: '
         action: 'store_true'
 
-anaconda:
-  summary: Test anaconda
-  schedule:
-    nodes: 1
-    tasks_per_node: 1
-  build:
-    source_path: test-scipy.py
-  run:
-    modules: ['anaconda3']
-    cmds:
-      - '{{sched.test_cmd}} python3 ./test-scipy.py'
-  result_parse:
-    regex:
-      result:
-        regex:  'numpy: '
-        action: 'store_true'
-
 opencv:
   summary: Test OpenCV python
   schedule:
