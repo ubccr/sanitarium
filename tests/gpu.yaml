@@ -12,11 +12,11 @@ nvhpc:
     modules: ['nvhpc']
     source_path: saxpy.cpp
     cmds:
-      - nvc++ -stdpar=multicore -o saxpy_cpu ./saxpy.cpp
+      - nvc++ -rpath=/opt/software/nvidia/lib64 -target=gpu -cuda -stdpar=gpu -o saxpy_gpu ./saxpy.cpp
   run:
     modules: ['nvhpc']
     cmds:
-      - '{{sched.test_cmd}} ./saxpy_cpu'
+      - '{{sched.test_cmd}} ./saxpy_gpu'
   result_parse:
     regex:
       result:
