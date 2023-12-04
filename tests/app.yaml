@@ -285,6 +285,7 @@ gamess-us:
     modules: ['intel', 'gamess-us']
     cmds:
       - 'rungms c2h4-acctc.inp 00 4'
+      - 'rm -rf $HOME/restart'
   result_parse:
     regex:
       result:

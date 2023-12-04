@@ -51,7 +51,7 @@ pytorch:
     nodes: 1
     tasks_per_node: 1
     slurm:
-      sbatch_extra: ['--gres=gpu:1']
+      sbatch_extra: ['--gres=gpu:1', '--mem=50G']
   build:
     source_path: pytorch-test.tar.gz
   run:
@@ -71,7 +71,7 @@ tensorflow:
     nodes: 1
     tasks_per_node: 1
     slurm:
-      sbatch_extra: ['--gres=gpu:1']
+      sbatch_extra: ['--gres=gpu:1', '--mem=50G']
   build:
     source_path: tensorflow-mnist-test.py
   run:
