@@ -75,3 +75,22 @@ cosplot:
         regex:  '%%Title: ./matlab_test_plot.ps'
         files: 'matlab_test_plot.ps'
         action: 'store_true'
+
+gpu:
+  summary: Test matlab GPU support.
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+    slurm:
+      sbatch_extra: ['--gres=gpu:1', '--mem=20G']
+  build:
+    source_path: gputest.m
+  run:
+    modules: ['matlab']
+    cmds:
+      - '{{sched.test_cmd}} matlab -nodisplay -nojvm -batch gputest'
+  result_parse:
+    regex:
+      result:
+        regex:  'OK'
+        action: 'store_true'

@@ -1,0 +1,10 @@
+N = 6;
+M = magic(N);
+G = gpuArray(M);
+G = gpuArray(ones(100,"uint32"));
+D = gather(G);
+OK = isequal(D,ones(100,"uint32"))
+X = rand(1000);
+G = gpuArray(X);
+X = rand(1000);
+G = gpuArray(single(X));
