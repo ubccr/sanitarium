@@ -310,3 +310,22 @@ cobaya:
       result:
         regex:  'The run has converged'
         action: 'store_true'
+
+#-------------------------------------------------------------------
+# Mathematica Test
+#-------------------------------------------------------------------
+mathematica:
+  summary: Basic mathematica test
+  schedule:
+    nodes: 1
+  build:
+    source_path: mathematica-test.m
+  run:
+    modules: ['mathematica']
+    cmds:
+      - '{{sched.test_cmd}} math -noprompt < mathematica-test.m'
+  result_parse:
+    regex:
+      result:
+        regex:  '2.718281828459045'
+        action: 'store_true'
