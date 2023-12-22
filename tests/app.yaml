@@ -329,3 +329,25 @@ mathematica:
       result:
         regex:  '2.718281828459045'
         action: 'store_true'
+
+#-------------------------------------------------------------------
+# CP2K Test
+#-------------------------------------------------------------------
+cp2k:
+  summary: CP2K benchmark test
+  build:
+    source_path: H2O-64.inp
+  schedule:
+    nodes: 2
+    slurm:
+       sbatch_extra: ['--tasks-per-node=8','--constraint="IB&AVX512"']
+       mpi_cmd: srun
+  run:
+    modules: ['foss', 'cp2k']
+    cmds:
+      - '{{sched.test_cmd}} cp2k.popt -i H2O-64.inp'
+  result_parse:
+    regex:
+      result:
+        regex:  'CP2K\s+1\s+1.0'
+        action: store_true
