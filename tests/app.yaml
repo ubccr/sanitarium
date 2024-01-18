@@ -367,5 +367,5 @@ fastp:
   run:
     modules: ['gcc', 'fastp']
     cmds:
-      - '{{sched.test_cmd}} UMI_test.sh
+      - '{{sched.test_cmd}} ./UMI_test.sh'
 
