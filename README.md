@@ -30,7 +30,7 @@ $ git remote add upstream git@github.com:ubccr/sanitarium.git
 3. Check that everything works:
 
 ```
-$ module load pavilion
+$ module load gcc pavilion
 $ pav show tests
  Available Tests                                                                
 -----------------+-------------------------------------------------------------

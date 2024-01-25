@@ -7,7 +7,7 @@ nvhpc:
     nodes: 1
     tasks_per_node: 1
     slurm:
-      sbatch_extra: ['--gres=gpu:1']
+      sbatch_extra: ['--gres=gpu:1 --constraint=A100']
   build:
     modules: ['nvhpc']
     source_path: saxpy.cpp
