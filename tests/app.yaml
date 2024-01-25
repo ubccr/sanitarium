@@ -351,3 +351,26 @@ cp2k:
       result:
         regex:  'CP2K\s+1\s+1.0'
         action: store_true
+
+
+#-------------------------------------------------------------------
+# Unicycler Test
+#-------------------------------------------------------------------
+unicycler:
+  summary: Unicycler test
+  build:
+    cmds:
+      - wget https://github.com/rrwick/Unicycler/raw/main/sample_data/short_reads_1.fastq.gz
+      - wget https://github.com/rrwick/Unicycler/raw/main/sample_data/short_reads_2.fastq.gz
+      - wget https://github.com/rrwick/Unicycler/raw/main/sample_data/long_reads_low_depth.fastq.gz
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'unicycler']
+    cmds:
+      - '{{sched.test_cmd}} unicycler -1 short_reads_1.fastq.gz -2 short_reads_2.fastq.gz -l long_reads_low_depth.fastq.gz -o output_dir'
+  result_parse:
+    regex:
+      result:
+        regex:  '[Aa]ssembly\s+[Cc]omplete'
+        action: store_true
