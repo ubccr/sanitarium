@@ -358,10 +358,7 @@ cp2k:
 trycycler:
   summary: Trycycler test
   build:
-    cmds:
-      - wget https://github.com/rrwick/Trycycler/archive/v0.5.3.tar.gz
-      - gzip -cd v0.5.3.tar.gz | tar xvf -
-      - mv Trycycler-0.5.3/* .
+    source_path: trycycler-v0.5.3.tar.gz
   schedule:
     nodes: 1
   run:
