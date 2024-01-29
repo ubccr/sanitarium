@@ -359,10 +359,9 @@ cp2k:
 unicycler:
   summary: Unicycler test
   build:
-    cmds:
-      - wget https://github.com/rrwick/Unicycler/raw/main/sample_data/short_reads_1.fastq.gz
-      - wget https://github.com/rrwick/Unicycler/raw/main/sample_data/short_reads_2.fastq.gz
-      - wget https://github.com/rrwick/Unicycler/raw/main/sample_data/long_reads_low_depth.fastq.gz
+    source_path: Unicycler
+    copy_files:
+      - ./**
   schedule:
     nodes: 1
   run:
