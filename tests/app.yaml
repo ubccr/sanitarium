@@ -351,3 +351,23 @@ cp2k:
       result:
         regex:  'CP2K\s+1\s+1.0'
         action: store_true
+
+#-------------------------------------------------------------------
+# Trycycler Test
+#-------------------------------------------------------------------
+trycycler:
+  summary: Trycycler test
+  build:
+    source_path: trycycler-v0.5.3.tar.gz
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'trycycler']
+    cmds:
+      - '{{sched.test_cmd}} pytest'
+  result_parse:
+    regex:
+      result:
+        regex:  '\s180\s+[Pp]assed\s'
+        action: store_true
+
