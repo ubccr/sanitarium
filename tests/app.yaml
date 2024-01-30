@@ -390,3 +390,23 @@ unicycler:
       result:
         regex:  '[Aa]ssembly\s+[Cc]omplete'
         action: store_true
+
+#-------------------------------------------------------------------
+# KronaTools Test
+#-------------------------------------------------------------------
+kronatools:
+  summary: KronaTools test
+  build:
+    source_path: KronaTools-taxonomy.tar.gz
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcccore', 'kronatools']
+    cmds:
+      - '{{sched.test_cmd}} ktImportTaxonomy -tax ./taxonomy my.tab'
+  result_parse:
+    regex:
+      result:
+        regex:  '\[\s+ERROR\s+\]'
+        action: store_false
+
