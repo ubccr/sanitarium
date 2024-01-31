@@ -369,3 +369,60 @@ fastp:
     cmds:
       - '{{sched.test_cmd}} ./UMI_test.sh'
 
+# Trycycler Test
+#-------------------------------------------------------------------
+trycycler:
+  summary: Trycycler test
+  build:
+    source_path: trycycler-v0.5.3.tar.gz
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'trycycler']
+    cmds:
+      - '{{sched.test_cmd}} pytest'
+  result_parse:
+    regex:
+      result:
+        regex:  '\s180\s+[Pp]assed\s'
+        action: store_true
+
+
+#-------------------------------------------------------------------
+# Unicycler Test
+#-------------------------------------------------------------------
+unicycler:
+  summary: Unicycler test
+  build:
+    source_path: Unicycler.tar.gz
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'unicycler']
+    cmds:
+      - '{{sched.test_cmd}} unicycler -1 short_reads_1.fastq.gz -2 short_reads_2.fastq.gz -l long_reads_low_depth.fastq.gz -o output_dir'
+  result_parse:
+    regex:
+      result:
+        regex:  '[Aa]ssembly\s+[Cc]omplete'
+        action: store_true
+
+#-------------------------------------------------------------------
+# KronaTools Test
+#-------------------------------------------------------------------
+kronatools:
+  summary: KronaTools test
+  build:
+    source_path: KronaTools-taxonomy.tar.gz
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcccore', 'kronatools']
+    cmds:
+      - '{{sched.test_cmd}} ktImportTaxonomy -tax ./taxonomy my.tab'
+  result_parse:
+    regex:
+      result:
+        regex:  '\[\s+ERROR\s+\]'
+        action: store_false
+
