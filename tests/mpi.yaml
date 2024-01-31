@@ -8,7 +8,7 @@ openmpi:
     slurm:
       sbatch_extra: ['--constraint=IB']
   build:
-    modules: ['gcc/11.2.0', 'openmpi/4.1.1']
+    modules: ['gcc', 'openmpi']
     env:
       CC: mpicc
     source_path: supermagic-1.2.tar.gz
@@ -16,7 +16,7 @@ openmpi:
       - ./configure
       - make
   run:
-    modules: ['gcc/11.2.0', 'openmpi/4.1.1']
+    modules: ['gcc', 'openmpi']
     cmds:
       - '{{sched.test_cmd}} ./supermagic'
   result_parse:
@@ -39,7 +39,7 @@ intelmpi:
       sbatch_extra: ['--constraint=IB']
       mpi_cmd: srun
   build:
-    modules: ['intel/2022.00']
+    modules: ['intel']
     env:
       CC: mpicc
     source_path: supermagic-1.2.tar.gz
@@ -50,7 +50,7 @@ intelmpi:
     env:
       I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
       I_MPI_DEBUG: 4
-    modules: ['intel/2022.00']
+    modules: ['intel']
     cmds:
       - '{{sched.test_cmd}} ./supermagic'
   result_parse:
@@ -75,7 +75,7 @@ intelpong:
     env:
       I_MPI_PMI_LIBRARY: /opt/software/slurm/lib64/libpmi.so
       I_MPI_DEBUG: 4
-    modules: ['intel/2022.00']
+    modules: ['intel']
     cmds:
       - '{{sched.test_cmd}} IMB-MPI1 PingPong'
   result_parse:
@@ -109,7 +109,7 @@ osupong:
       - ./configure
       - make
   run:
-    modules: ['foss/2021b']
+    modules: ['foss']
     cmds:
       - '{{sched.test_cmd}} c/mpi/pt2pt/osu_latency'
   result_parse:

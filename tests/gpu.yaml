@@ -7,7 +7,7 @@ nvhpc:
     nodes: 1
     tasks_per_node: 1
     slurm:
-      sbatch_extra: ['--gres=gpu:1']
+      sbatch_extra: ['--gres=gpu:1 --constraint=A100']
   build:
     modules: ['nvhpc']
     source_path: saxpy.cpp
@@ -83,3 +83,47 @@ tensorflow:
       result:
         regex:  '313/313.*accuracy: 0.9'
         action: 'store_true'
+
+pytorchlightning:
+  summary: Simple pytorch lightning train/predict mnist test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+    slurm:
+      sbatch_extra: ['--gres=gpu:1', '--mem=50G']
+  build:
+    source_path: pytorch-lightning-test.tar.gz
+  run:
+    modules: ['foss', 'pytorch-lightning', 'torchvision']
+    cmds:
+      - '{{sched.test_cmd}} python train.py'
+      - '{{sched.test_cmd}} python predict.py'
+  result_parse:
+    regex:
+      gpu_used:
+        action: 'store_true'
+        regex: 'GPU available: True \(cuda\), used: True'
+      max_epochs:
+        regex: '`Trainer.fit` stopped: `max_epochs=(\d+)` reached.'
+  result_evaluate:
+    result: 'gpu_used and max_epochs == 1'
+
+cupy:
+  summary: Simple CuPy test
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+    slurm:
+      sbatch_extra: ['--gres=gpu:1' ]
+  build:
+    source_path: cupy-test.py
+  run:
+    modules: ['foss', 'cupy']
+    cmds:
+      - '{{sched.test_cmd}} python cupy-test.py'
+  result_parse:
+    regex:
+      gpu_time:
+        regex: 'GPU Time: (.*)'
+  result_evaluate:
+    result: 'gpu_time > 0'
