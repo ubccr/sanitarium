@@ -127,3 +127,29 @@ cupy:
         regex: 'GPU Time: (.*)'
   result_evaluate:
     result: 'gpu_time > 0'
+
+dgl:
+  summary: Node Classification with DGL
+  schedule:
+    nodes: 1
+    tasks_per_node: 1
+    slurm:
+      sbatch_extra: ['--gres=gpu:1', '--mem=8G']
+  build:
+    source_path: dgl-test.tar.gz
+  run:
+    env:
+      DGLDEFAULTDIR: $(pwd)/dgl-data-dir
+      DGL_DOWNLOAD_DIR: $(pwd)/dgl-data-dir
+    modules: ['foss', 'dgl']
+    cmds:
+      - '{{sched.test_cmd}} python dgl-train-test.py'
+  result_parse:
+    regex:
+      num_cats:
+        regex: 'Number of categories: (\d+)'
+      epoch_95:
+        action: 'store_true'
+        regex: 'In epoch 95'
+  result_evaluate:
+    result: 'epoch_95 and num_cats == 7'
