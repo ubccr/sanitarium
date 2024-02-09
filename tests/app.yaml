@@ -410,3 +410,22 @@ kronatools:
         regex:  '\[\s+ERROR\s+\]'
         action: store_false
 
+
+#-------------------------------------------------------------------
+# ANSYS Test
+#-------------------------------------------------------------------
+ansys:
+  summary: Simple ANSYS LS-DYNA test
+  build:
+    source_path: ball_and_plate.k
+  schedule:
+    nodes: 1
+  run:
+    modules: ['ansys']
+    cmds:
+      - '{{sched.test_cmd}} lsdyna i=ball_and_plate.k'
+  result_parse:
+    regex:
+      result:
+        regex:  'N o r m a l    t e r m i n a t i o n'
+        action: store_true
