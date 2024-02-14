@@ -353,6 +353,29 @@ cp2k:
         action: store_true
 
 #-------------------------------------------------------------------
+# CheckM Test
+#-------------------------------------------------------------------
+checkm:
+  summary: CheckM test
+  variables:
+    cores: 4
+  build:
+     cmds: []
+  schedule:
+    nodes: 1
+    slurm:
+      sbatch_extra: ['--cpus-per-task={{ var.cores }}']
+  run:
+    modules: ['gcc', 'openmpi', 'checkm']
+    cmds:
+      - '{{sched.test_cmd}} checkm test .'
+  result_parse:
+    regex:
+      result:
+        regex:  '[Ff][Aa][Ii][Ll]'
+        action: store_false
+
+#-------------------------------------------------------------------
 # Trycycler Test
 #-------------------------------------------------------------------
 trycycler:
