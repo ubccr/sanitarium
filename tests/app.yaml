@@ -429,3 +429,30 @@ ansys:
       result:
         regex:  'N o r m a l    t e r m i n a t i o n'
         action: store_true
+
+#-------------------------------------------------------------------
+# Amber Tests
+#-------------------------------------------------------------------
+amber:
+  summary: Amber test
+  build:
+    source_path: amber_test.tar.gz
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'amber']
+    cmds:
+      - '{{sched.test_cmd}} ./amber_test/run_tests.sh'
+amber-cuda:
+  summary: Amber test using the CUDA build of Amber
+  build:
+    source_path: amber_test.tar.gz
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'amber/22.0-AmberTools-23.0-CUDA-11.8.0']
+    cmds:
+      - '{{sched.test_cmd}} ./amber_test/run_tests.sh'
+
