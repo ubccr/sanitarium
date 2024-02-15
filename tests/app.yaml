@@ -436,7 +436,7 @@ ansys:
 mdanalysis:
   summary: Basic MDAnalysis Example
   build:
-    source_path: MDAnalysisTests-2.7.0.tar.gz
+    source_path: MDAnalysisTests-2.7.0.tar.bz2
   schedule:
     nodes: 1
   run:
