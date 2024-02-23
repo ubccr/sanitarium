@@ -410,6 +410,33 @@ kronatools:
         regex:  '\[\s+ERROR\s+\]'
         action: store_false
 
+#-------------------------------------------------------------------
+# HyPhy Test
+#-------------------------------------------------------------------
+hyphy:
+  summary: HyPhy tests
+  build:
+    source_path: HyPhy-tests.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'hyphy']
+    cmds:
+      - '{{sched.test_cmd}} ./HyPhy-tests/run_tests.sh'
+
+hyphy-mpi:
+  summary: HyPhy test using the MPI version of HyPhy
+  build:
+    source_path: HyPhy-tests.tar.bz2
+  schedule:
+    nodes: 2
+    slurm:
+      sbatch_extra: ['--tasks-per-node=1','--constraint="IB&AVX512"']
+  run:
+    modules: ['gcc', 'openmpi', 'hyphy']
+    cmds:
+      - '{{sched.test_cmd}} ./HyPhy-tests/run_tests.sh MPI'
 
 #-------------------------------------------------------------------
 # ANSYS Test
