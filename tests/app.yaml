@@ -410,6 +410,21 @@ kronatools:
         regex:  '\[\s+ERROR\s+\]'
         action: store_false
 
+#-------------------------------------------------------------------
+# ANTs Test
+#-------------------------------------------------------------------
+ants:
+  summary: ANTs test
+  build:
+    source_path: ANTs-test.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+       sbatch_extra: ['--cpus-per-task=8']
+  run:
+    modules: ['gcc', 'openmpi', 'ants']
+    cmds:
+      - '{{sched.test_cmd}} ./ANTs-test/run_tests.sh 8'
 
 #-------------------------------------------------------------------
 # ANSYS Test
@@ -429,3 +444,4 @@ ansys:
       result:
         regex:  'N o r m a l    t e r m i n a t i o n'
         action: store_true
+
