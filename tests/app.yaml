@@ -475,3 +475,17 @@ ansys:
       result:
         regex:  'N o r m a l    t e r m i n a t i o n'
         action: store_true
+
+#-------------------------------------------------------------------
+# MDAnalysis Test
+#-------------------------------------------------------------------
+mdanalysis:
+  summary: Basic MDAnalysis Example
+  build:
+    source_path: MDAnalysisTests-2.7.0.tar.bz2
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'mdanalysis']
+    cmds:
+      - '{{sched.test_cmd}} python3 basic_example.py'
