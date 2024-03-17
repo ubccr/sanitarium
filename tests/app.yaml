@@ -353,6 +353,22 @@ cp2k:
         action: store_true
 
 #-------------------------------------------------------------------
+# fastp Test
+#-------------------------------------------------------------------
+fastp:
+  summary: fastp UNI test
+  build:
+    source_path: fastp
+    copy_files:
+    - ./**
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'fastp']
+    cmds:
+      - '{{sched.test_cmd}} ./UMI_test.sh'
+
 # Trycycler Test
 #-------------------------------------------------------------------
 trycycler:
