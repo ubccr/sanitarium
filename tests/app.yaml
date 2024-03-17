@@ -412,6 +412,25 @@ kronatools:
 
 
 #-------------------------------------------------------------------
+# NanoPlot Test
+#-------------------------------------------------------------------
+nanoplot:
+  summary: NanoPlot Test set
+  build:
+    cmds: []
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'nanoplot']
+    cmds:
+      - '{{sched.test_cmd}} bash ${EBROOTNANOPLOT}/lib/python3.9/site-packages/scripts/test.sh'
+  result_parse:
+    regex:
+      result:
+        regex:  'Finished!'
+        action: store_true
+
+#-------------------------------------------------------------------
 # ANSYS Test
 #-------------------------------------------------------------------
 ansys:
