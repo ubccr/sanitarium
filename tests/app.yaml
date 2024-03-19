@@ -410,6 +410,52 @@ kronatools:
         regex:  '\[\s+ERROR\s+\]'
         action: store_false
 
+#-------------------------------------------------------------------
+# HyPhy Test
+#-------------------------------------------------------------------
+hyphy:
+  summary: HyPhy tests
+  build:
+    source_path: HyPhy-tests.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'hyphy']
+    cmds:
+      - '{{sched.test_cmd}} ./HyPhy-tests/run_tests.sh'
+
+hyphy-mpi:
+  summary: HyPhy test using the MPI version of HyPhy
+  build:
+    source_path: HyPhy-tests.tar.bz2
+  schedule:
+    nodes: 2
+    slurm:
+      sbatch_extra: ['--tasks-per-node=1','--constraint="IB&AVX512"']
+  run:
+    modules: ['gcc', 'openmpi', 'hyphy']
+    cmds:
+      - '{{sched.test_cmd}} ./HyPhy-tests/run_tests.sh MPI'
+
+#-------------------------------------------------------------------
+# NanoPlot Test
+#-------------------------------------------------------------------
+nanoplot:
+  summary: NanoPlot Test set
+  build:
+    cmds: []
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'nanoplot']
+    cmds:
+      - '{{sched.test_cmd}} bash ${EBROOTNANOPLOT}/lib/python3.9/site-packages/scripts/test.sh'
+  result_parse:
+    regex:
+      result:
+        regex:  'Finished!'
+        action: store_true
 
 #-------------------------------------------------------------------
 # ANSYS Test
@@ -456,4 +502,18 @@ amber-cuda:
     modules: ['gcc', 'openmpi', 'amber/22.0-AmberTools-23.0-CUDA-11.8.0']
     cmds:
       - '{{sched.test_cmd}} ./amber_test/run_tests.sh cuda'
+
+#-------------------------------------------------------------------
+# MDAnalysis Test
+#-------------------------------------------------------------------
+mdanalysis:
+  summary: Basic MDAnalysis Example
+  build:
+    source_path: MDAnalysisTests-2.7.0.tar.bz2
+  schedule:
+    nodes: 1
+  run:
+    modules: ['gcc', 'openmpi', 'mdanalysis']
+    cmds:
+      - '{{sched.test_cmd}} python3 basic_example.py'
 
