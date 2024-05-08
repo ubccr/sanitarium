@@ -489,3 +489,26 @@ mdanalysis:
     modules: ['gcc', 'openmpi', 'mdanalysis']
     cmds:
       - '{{sched.test_cmd}} python3 basic_example.py'
+
+#-------------------------------------------------------------------
+# Metal Test
+#-------------------------------------------------------------------
+metal:
+  summary: Metal tests
+  build:
+    # test tarball from https://csg.sph.umich.edu/abecasis/Metal/download/GlucoseExample.tar.gz
+    source_path: Metal_GlucoseExample.tar.gz
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'metal']
+    cmds:
+      - '{{sched.test_cmd}} metal metal.txt'
+      - wc -l METAANALYSIS1.TBL
+  result_parse:
+    regex:
+      result:
+        regex:  '^2496\s'
+        action: 'store_true'
+
