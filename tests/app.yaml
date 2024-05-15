@@ -489,3 +489,20 @@ mdanalysis:
     modules: ['gcc', 'openmpi', 'mdanalysis']
     cmds:
       - '{{sched.test_cmd}} python3 basic_example.py'
+
+#-------------------------------------------------------------------
+# JAGS Tests
+#-------------------------------------------------------------------
+jags:
+  summary: JAGS tests
+  build:
+    source_path: JAGS_classic-bugs.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    # NOTE: tests require Rscript from the "r" module
+    modules: ['gcc', 'openmpi', 'jags', 'r']
+    cmds:
+      - '{{sched.test_cmd}} ./JAGS_classic-bugs/run_tests.sh'
+
