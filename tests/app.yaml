@@ -489,3 +489,19 @@ mdanalysis:
     modules: ['gcc', 'openmpi', 'mdanalysis']
     cmds:
       - '{{sched.test_cmd}} python3 basic_example.py'
+
+#-------------------------------------------------------------------
+# PLINK version 2 Test
+#-------------------------------------------------------------------
+plink2:
+  summary: PLINK2 quick test
+  build:
+    source_path: plink2_test.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'plink']
+    cmds:
+      - '{{sched.test_cmd}} ./plink2_test/run_test.sh'
+
