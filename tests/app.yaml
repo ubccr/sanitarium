@@ -489,3 +489,19 @@ mdanalysis:
     modules: ['gcc', 'openmpi', 'mdanalysis']
     cmds:
       - '{{sched.test_cmd}} python3 basic_example.py'
+
+#-------------------------------------------------------------------
+# OPERA-MS Test
+#-------------------------------------------------------------------
+opera-ms:
+  summary: OPERA-MS test
+  build:
+    source_path: OPERA-MS-0.9.0_test.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'opera-ms']
+    cmds:
+      - '{{sched.test_cmd}} ./OPERA-MS-0.9.0_test/run_test.sh'
+
