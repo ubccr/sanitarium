@@ -489,3 +489,19 @@ mdanalysis:
     modules: ['gcc', 'openmpi', 'mdanalysis']
     cmds:
       - '{{sched.test_cmd}} python3 basic_example.py'
+
+#-------------------------------------------------------------------
+# rjags Test
+#-------------------------------------------------------------------
+rjags:
+  summary: rjags test
+  build:
+    source_path: rjags_test.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'rjags']
+    cmds:
+      - '{{sched.test_cmd}} ./rjags_test/run_test.sh'
+
