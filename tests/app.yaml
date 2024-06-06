@@ -489,3 +489,20 @@ mdanalysis:
     modules: ['gcc', 'openmpi', 'mdanalysis']
     cmds:
       - '{{sched.test_cmd}} python3 basic_example.py'
+
+
+#-------------------------------------------------------------------
+# GFF3-toolkit Tests
+#-------------------------------------------------------------------
+gff3-toolkit:
+  summary: GFF3-toolkit tests
+  build:
+    source_path: GFF3-toolkit_tests.tar.bz2
+  schedule:
+    nodes: 1
+    slurm:
+  run:
+    modules: ['gcc', 'openmpi', 'gff3-toolkit']
+    cmds:
+      - '{{sched.test_cmd}} ./run_tests.sh'
+
